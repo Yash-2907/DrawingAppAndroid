@@ -11,8 +11,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
-import java.util.jar.Attributes
 
 class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
     private var mdrawpath : CustomPath?=null
@@ -90,7 +88,7 @@ class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
         mDrawPaint!!.strokeWidth=mBrushSize
     }
 
-    public fun setBrushColor(newColor:Int)
+    public fun setBrushColor(newColor: Int)
     {
        mDrawPaint!!.color=newColor
         color=newColor

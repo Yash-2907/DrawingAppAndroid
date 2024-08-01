@@ -1,11 +1,9 @@
 package com.example.drawingapp
 
 import android.app.Dialog
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
@@ -43,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                 lastval=value
             }
             brushselector.show()
+        }
+        findViewById<ImageButton>(R.id.eraserbtn).setOnClickListener{
+            val whitecolor=ContextCompat.getColor(this,R.color.white)
+            DrawObj.setBrushColor(whitecolor)
         }
     }
 }
