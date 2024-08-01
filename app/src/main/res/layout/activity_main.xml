@@ -27,13 +27,30 @@
         android:orientation="horizontal"
         >
         <ImageButton
+            android:id="@+id/imagebtn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/roundbtn"
+            android:src="@drawable/imagepng"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerInside">
+
+        </ImageButton>
+        <ImageButton
             android:id="@+id/brushbtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/paintbrushicon"
             android:layout_weight="1"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:scaleType="centerInside">
 
         </ImageButton>
@@ -44,7 +61,10 @@
             android:background="@drawable/roundbtn"
             android:src="@drawable/colorpalletepng"
             android:layout_weight="1"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:scaleType="centerInside">
 
         </ImageButton>
@@ -55,7 +75,24 @@
             android:background="@drawable/roundbtn"
             android:src="@drawable/eraserpng"
             android:layout_weight="1"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerInside">
+
+        </ImageButton>
+        <ImageButton
+            android:id="@+id/undobtn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/roundbtn"
+            android:src="@drawable/undopng"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:scaleType="centerInside">
 
         </ImageButton>
