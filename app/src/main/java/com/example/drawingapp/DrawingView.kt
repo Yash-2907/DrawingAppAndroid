@@ -7,9 +7,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import java.util.jar.Attributes
 
 class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
@@ -86,6 +88,13 @@ class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
     {
         mBrushSize=TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,newSize,resources.displayMetrics)
         mDrawPaint!!.strokeWidth=mBrushSize
+    }
+
+    public fun setBrushColor(newColor:Int)
+    {
+       mDrawPaint!!.color=newColor
+        color=newColor
+        Log.d("ifcolorchanges","Color picker $newColor")
     }
     private inner class CustomPath(var color:Int,var BrushThickness:Float): Path() {
 
