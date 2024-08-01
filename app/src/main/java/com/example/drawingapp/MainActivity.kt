@@ -43,14 +43,17 @@ class MainActivity : AppCompatActivity() {
             brushselector.show()
             brushselector.findViewById<ImageButton>(R.id.smallbtn).setOnClickListener{
                 DrawObj.setBrushSize(20F)
+                lastval=20f
                 brushselector.dismiss()
             }
             brushselector.findViewById<ImageButton>(R.id.mediumbtn).setOnClickListener{
                 DrawObj.setBrushSize(45F)
+                lastval=45f
                 brushselector.dismiss()
             }
             brushselector.findViewById<ImageButton>(R.id.largebtn).setOnClickListener{
                 DrawObj.setBrushSize(70F)
+                lastval=70f
                 brushselector.dismiss()
             }
         }
