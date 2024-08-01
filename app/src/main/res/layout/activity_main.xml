@@ -6,14 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/lightpurple">
 
     <com.example.drawingapp.DrawingView
         android:id="@+id/Canvasid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/pallete_design">
     </com.example.drawingapp.DrawingView>
 
@@ -25,8 +28,8 @@
         >
         <ImageButton
             android:id="@+id/brushbtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/paintbrushicon"
             android:layout_weight="1"
@@ -36,8 +39,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/colorpalletebtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/colorpalletepng"
             android:layout_weight="1"
@@ -47,8 +50,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/eraserbtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/eraserpng"
             android:layout_weight="1"

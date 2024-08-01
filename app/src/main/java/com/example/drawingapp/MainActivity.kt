@@ -41,6 +41,18 @@ class MainActivity : AppCompatActivity() {
                 lastval=value
             }
             brushselector.show()
+            brushselector.findViewById<ImageButton>(R.id.smallbtn).setOnClickListener{
+                DrawObj.setBrushSize(20F)
+                brushselector.dismiss()
+            }
+            brushselector.findViewById<ImageButton>(R.id.mediumbtn).setOnClickListener{
+                DrawObj.setBrushSize(45F)
+                brushselector.dismiss()
+            }
+            brushselector.findViewById<ImageButton>(R.id.largebtn).setOnClickListener{
+                DrawObj.setBrushSize(70F)
+                brushselector.dismiss()
+            }
         }
         findViewById<ImageButton>(R.id.eraserbtn).setOnClickListener{
             val whitecolor=ContextCompat.getColor(this,R.color.white)
