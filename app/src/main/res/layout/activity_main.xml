@@ -19,7 +19,45 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/pallete_design">
     </com.example.drawingapp.DrawingView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp">
 
+        </TextView>
+        <com.google.android.material.slider.Slider
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/sizeslider"
+            android:valueFrom="0"
+            android:valueTo="100"
+            app:thumbHeight="40dp"
+            app:thumbStrokeWidth="1dp"
+            app:thumbColor="@color/black"
+            android:layout_weight="1"
+            >
+        </com.google.android.material.slider.Slider>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp">
+
+        </TextView>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/toolpallete"
         android:layout_width="wrap_content"
@@ -37,7 +75,7 @@
             android:layout_marginRight="6dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:scaleType="centerInside">
+            android:scaleType="fitCenter">
 
         </ImageButton>
         <ImageButton

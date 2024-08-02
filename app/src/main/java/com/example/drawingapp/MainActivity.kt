@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         //DrawObj.setBrushSize(25F)
         var defaultcolor=ContextCompat.getColor(this,R.color.white)
         findViewById<ImageButton>(R.id.colorpalletebtn).setOnClickListener{
+            setselected(2)
             val colorpicker:AmbilWarnaDialog=AmbilWarnaDialog(this,defaultcolor,object : AmbilWarnaDialog.OnAmbilWarnaListener{
                 override fun onCancel(dialog: AmbilWarnaDialog?) {
                 }
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             colorpicker.show()
         }
         findViewById<ImageButton>(R.id.brushbtn).setOnClickListener {
+            setselected(1)
             val brushselector:Dialog=Dialog(this)
             brushselector.setContentView(R.layout.dialog_brushsizebox)
             brushselector.setTitle("Brush Size")
@@ -58,8 +60,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
         findViewById<ImageButton>(R.id.eraserbtn).setOnClickListener{
+            setselected(3)
             val whitecolor=ContextCompat.getColor(this,R.color.white)
             DrawObj.setBrushColor(whitecolor)
+        }
+    }
+    fun resetbtnselection()
+    {
+        findViewById<ImageButton>(R.id.brushbtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtn)
+        findViewById<ImageButton>(R.id.colorpalletebtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtn)
+        findViewById<ImageButton>(R.id.eraserbtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtn)
+    }
+    fun setselected(n:Int)
+    {
+        resetbtnselection()
+        when(n){
+            1->{findViewById<ImageButton>(R.id.brushbtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtnselected)}
+            2->{findViewById<ImageButton>(R.id.colorpalletebtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtnselected)}
+            3->{findViewById<ImageButton>(R.id.eraserbtn).background=ContextCompat.getDrawable(this,R.drawable.roundbtnselected)}
         }
     }
 }
