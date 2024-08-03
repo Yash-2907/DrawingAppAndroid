@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         var lastvaleraser:Float=10f
         var defaultcolor=ContextCompat.getColor(this,R.color.black)
         findViewById<ImageButton>(R.id.colorpalletebtn).setOnClickListener{
-            setselected(2)
             val colorpicker:AmbilWarnaDialog=AmbilWarnaDialog(this,defaultcolor,object : AmbilWarnaDialog.OnAmbilWarnaListener{
                 override fun onCancel(dialog: AmbilWarnaDialog?) {
                 }
@@ -55,6 +54,9 @@ class MainActivity : AppCompatActivity() {
             else {
                 lastvaleraser = value
             }
+        }
+        findViewById<ImageButton>(R.id.undobtn).setOnClickListener{
+            DrawObj.undo()
         }
     }
 

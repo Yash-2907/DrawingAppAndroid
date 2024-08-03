@@ -94,6 +94,15 @@ class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
         color=newColor
         Log.d("ifcolorchanges","Color picker $newColor")
     }
+
+    public fun undo()
+    {
+        if(!allPath.isEmpty())
+        {
+            allPath.removeAt(allPath.lastIndex)
+            invalidate()
+        }
+    }
     private inner class CustomPath(var color:Int,var BrushThickness:Float): Path() {
 
     }

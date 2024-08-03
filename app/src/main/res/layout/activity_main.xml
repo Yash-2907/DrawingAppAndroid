@@ -45,6 +45,7 @@
             app:thumbStrokeWidth="1dp"
             app:thumbColor="@color/black"
             android:layout_weight="1"
+            android:value="10"
             >
         </com.google.android.material.slider.Slider>
         <TextView
@@ -82,7 +83,7 @@
             android:id="@+id/brushbtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:background="@drawable/roundbtn"
+            android:background="@drawable/roundbtnselected"
             android:src="@drawable/paintbrushicon"
             android:layout_weight="1"
             android:layout_marginLeft="6dp"
