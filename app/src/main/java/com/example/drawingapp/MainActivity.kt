@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Slider>(R.id.sizeslider).addOnChangeListener{slider,value,fromUser->
             DrawObj.setBrushSize(value)
+            val roundedValue = String.format("%.1f", value)
+            findViewById<TextView>(R.id.sizepercentage).text = "$roundedValue%"
             if(brushOReraser) {
                 lastvalbrush = value
             }

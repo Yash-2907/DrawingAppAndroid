@@ -25,16 +25,6 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_margin="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0%"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20dp">
-
-        </TextView>
         <com.google.android.material.slider.Slider
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -42,20 +32,23 @@
             android:valueFrom="0"
             android:valueTo="100"
             app:thumbHeight="40dp"
-            app:thumbStrokeWidth="1dp"
-            app:thumbColor="@color/black"
+            app:thumbStrokeWidth="1.5dp"
+            app:thumbWidth="7dp"
+            app:thumbColor="@color/lightblue"
             android:layout_weight="1"
             android:value="10"
+            app:trackColorActive="@color/lightgreen"
             >
         </com.google.android.material.slider.Slider>
         <TextView
+            android:id="@+id/sizepercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%"
+            android:text="10%"
             android:layout_marginRight="10dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="20dp">
+            android:textSize="23dp">
 
         </TextView>
     </LinearLayout>

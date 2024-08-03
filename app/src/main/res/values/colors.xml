@@ -6,5 +6,8 @@
     <color name="lightpurple">#BF6FEA</color>
     <color name="cyan">#71eef1</color>
     <color name="red">#f70a34</color>
-    <color name="lightred">#fa97a8</color>
+    <color name="lightred">#ff6f8b</color>
+    <color name="yellow">#fff77b</color>
+    <color name="lightgreen">#b8ff74</color>
+    <color name="lightblue">#3bbdf5</color>
 </resources>
