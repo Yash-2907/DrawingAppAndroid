@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.undobtn).setOnClickListener{
             DrawObj.undo()
         }
+
+        findViewById<ImageButton>(R.id.imagebtn).setOnClickListener{
+
+        }
     }
 
     fun resetbtnselection()

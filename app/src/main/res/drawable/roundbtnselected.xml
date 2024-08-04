@@ -3,10 +3,10 @@
     <size android:width="50dp"  android:height="50dp">
 
     </size>
-    <solid android:color="@color/lightred">
+    <solid android:color="@color/yellow">
 
     </solid>
-    <stroke android:color="@color/red" android:width="3dp">
+    <stroke android:color="@color/red" android:width="2.5dp">
 
     </stroke>
 </shape>

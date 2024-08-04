@@ -9,8 +9,7 @@
     android:gravity="center"
     android:background="@color/lightpurple">
 
-    <com.example.drawingapp.DrawingView
-        android:id="@+id/Canvasid"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -18,7 +17,28 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/pallete_design">
-    </com.example.drawingapp.DrawingView>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/whitebg"
+            android:scaleType="center"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp">
+        </ImageButton>
+      <com.example.drawingapp.DrawingView
+        android:id="@+id/Canvasid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80FFFFFF"
+          android:layout_marginBottom="3dp"
+          android:layout_marginLeft="3dp"
+          android:layout_marginRight="3dp"
+          android:layout_marginTop="3dp">
+      </com.example.drawingapp.DrawingView>
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
