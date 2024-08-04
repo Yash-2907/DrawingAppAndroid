@@ -29,7 +29,7 @@
 
             <ImageButton
                 android:id="@+id/gallerybtn"
-                android:layout_width="60dp"
+                android:layout_width="57dp"
                 android:layout_height="65dp"
                 android:layout_weight="1"
                 android:background="@drawable/whitebgroundbtn"

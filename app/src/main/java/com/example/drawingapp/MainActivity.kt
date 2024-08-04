@@ -102,12 +102,18 @@ class MainActivity : AppCompatActivity() {
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.findViewById<ImageButton>(R.id.camerabtn).setOnClickListener{
 
+
+                     //HERE CAMERA FUNCTIONALITY WILL BE INTEGRATED
+
+
                 }
                 dialog.findViewById<ImageButton>(R.id.gallerybtn).setOnClickListener{
                     contract.launch("image/*")
+                    dialog.dismiss()
                 }
                 dialog.findViewById<ImageButton>(R.id.dustbinbtn).setOnClickListener{
                     findViewById<ImageView>(R.id.tracelayer).setImageDrawable(ContextCompat.getDrawable(this, R.drawable.whitebg))
+                    dialog.dismiss()
                 }
                 dialog.show()
             }
