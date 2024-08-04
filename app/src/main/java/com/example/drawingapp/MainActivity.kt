@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -70,7 +72,16 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.imagebtn).setOnClickListener {
             if(requestpermission())
             {
-                Toast.makeText(this, "all granted", Toast.LENGTH_SHORT).show()
+                val dialog = Dialog(this)
+                dialog.setContentView(R.layout.mediapickerdialog)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                dialog.findViewById<ImageButton>(R.id.camerabtn).setOnClickListener{
+
+                }
+                dialog.findViewById<ImageButton>(R.id.gallerybtn).setOnClickListener{
+
+                }
+                dialog.show()
             }
             else{
                 Toast.makeText(this, "Oops Your Need To allow all those permissions to access this feature!!", Toast.LENGTH_LONG).show()

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="40dp">
+
+            <ImageButton
+                android:id="@+id/camerabtn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/whitebgroundbtn"
+                android:scaleType="fitCenter"
+                android:src="@drawable/camerapng"
+                android:layout_marginRight="50dp">
+
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/gallerybtn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/whitebgroundbtn"
+                android:scaleType="centerInside"
+                android:src="@drawable/gallerypng">
+
+            </ImageButton>
+
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>
