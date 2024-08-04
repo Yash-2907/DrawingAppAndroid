@@ -89,6 +89,9 @@ class MainActivity : AppCompatActivity() {
                 dialog.findViewById<ImageButton>(R.id.gallerybtn).setOnClickListener{
                     contract.launch("image/*")
                 }
+                dialog.findViewById<ImageButton>(R.id.dustbinbtn).setOnClickListener{
+                    findViewById<ImageView>(R.id.tracelayer).setImageDrawable(ContextCompat.getDrawable(this, R.drawable.whitebg))
+                }
                 dialog.show()
             }
             else{
