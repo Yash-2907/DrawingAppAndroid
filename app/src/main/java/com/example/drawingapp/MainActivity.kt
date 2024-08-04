@@ -2,15 +2,19 @@ package com.example.drawingapp
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
@@ -21,6 +25,10 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
     lateinit var DrawObj:DrawingView
     var brushOReraser :Boolean=true
+    private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
+    {
+        findViewById<ImageView>(R.id.tracelayer).setImageURI(it)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -79,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 dialog.findViewById<ImageButton>(R.id.gallerybtn).setOnClickListener{
-
+                    contract.launch("image/*")
                 }
                 dialog.show()
             }

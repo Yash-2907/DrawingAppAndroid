@@ -17,7 +17,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/pallete_design">
-        <ImageButton
+        <ImageView
+            android:id="@+id/tracelayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/whitebg"
@@ -25,9 +26,8 @@
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:layout_marginTop="3dp"
-            android:visibility="invisible">
-        </ImageButton>
+            android:layout_marginTop="3dp">
+        </ImageView>
       <com.example.drawingapp.DrawingView
         android:id="@+id/Canvasid"
         android:layout_width="match_parent"
