@@ -1,14 +1,19 @@
 package com.example.drawingapp
 
+import android.Manifest
 import android.app.Dialog
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -62,10 +67,48 @@ class MainActivity : AppCompatActivity() {
             DrawObj.undo()
         }
 
-        findViewById<ImageButton>(R.id.imagebtn).setOnClickListener{
-
+        findViewById<ImageButton>(R.id.imagebtn).setOnClickListener {
+            if(requestpermission())
+            {
+                Toast.makeText(this, "all granted", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(this, "Oops Your Need To allow all those permissions to access this feature!!", Toast.LENGTH_LONG).show()
+            }
         }
     }
+
+    fun requestpermission():Boolean{
+        var listofpermissions =permissionlist()
+        if(listofpermissions.isEmpty()) {
+            return true
+        }
+        else{
+            ActivityCompat.requestPermissions(this,listofpermissions.toTypedArray(),1)
+            listofpermissions=permissionlist()
+            if(permissionlist().isEmpty()){
+                return true
+            }
+            else{
+                return false
+            }
+        }
+    }
+
+    fun permissionlist():ArrayList<String>
+    {
+        var listofpermissions=ArrayList<String>()
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED)
+        {
+            listofpermissions.add(Manifest.permission.CAMERA)
+        }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES)!=PackageManager.PERMISSION_GRANTED)
+        {
+            listofpermissions.add(Manifest.permission.READ_MEDIA_IMAGES)
+        }
+        return listofpermissions
+    }
+
 
     fun resetbtnselection()
     {
