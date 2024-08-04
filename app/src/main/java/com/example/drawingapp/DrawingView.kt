@@ -103,6 +103,12 @@ class DrawingView(context:Context,attr:AttributeSet): View(context,attr) {
             invalidate()
         }
     }
+
+    public fun clearcanvas()
+    {
+        allPath.clear()
+        invalidate()
+    }
     private inner class CustomPath(var color:Int,var BrushThickness:Float): Path() {
 
     }

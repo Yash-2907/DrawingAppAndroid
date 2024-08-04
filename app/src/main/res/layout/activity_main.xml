@@ -81,8 +81,8 @@
         >
         <ImageButton
             android:id="@+id/imagebtn"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/imagepng"
             android:layout_weight="1"
@@ -95,8 +95,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/brushbtn"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbtnselected"
             android:src="@drawable/paintbrushicon"
             android:layout_weight="1"
@@ -109,8 +109,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/colorpalletebtn"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/colorpalletepng"
             android:layout_weight="1"
@@ -123,8 +123,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/eraserbtn"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/eraserpng"
             android:layout_weight="1"
@@ -137,8 +137,8 @@
         </ImageButton>
         <ImageButton
             android:id="@+id/undobtn"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbtn"
             android:src="@drawable/undopng"
             android:layout_weight="1"
@@ -147,6 +147,20 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:scaleType="centerInside">
+
+        </ImageButton>
+        <ImageButton
+            android:id="@+id/deleteallbtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/roundbtn"
+            android:src="@drawable/delete3dpng"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitCenter">
 
         </ImageButton>
     </LinearLayout>

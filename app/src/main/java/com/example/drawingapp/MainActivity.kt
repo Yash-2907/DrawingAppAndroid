@@ -1,6 +1,7 @@
 package com.example.drawingapp
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -36,6 +37,22 @@ class MainActivity : AppCompatActivity() {
         var lastvalbrush:Float=10f
         var lastvaleraser:Float=10f
         var defaultcolor=ContextCompat.getColor(this,R.color.black)
+        findViewById<ImageButton>(R.id.deleteallbtn).setOnClickListener{
+            val builder=AlertDialog.Builder(this)
+            builder.setTitle("Alert")
+            builder.setMessage("Do you confirm to delete the entire canvas?")
+            builder.setIcon(R.drawable.alertpng)
+            builder.setPositiveButton("Yes"){dialogueInterface,which->
+                DrawObj.clearcanvas()
+                findViewById<ImageView>(R.id.tracelayer).setImageDrawable(ContextCompat.getDrawable(this, R.drawable.whitebg))
+                dialogueInterface.dismiss()
+            }
+            builder.setNeutralButton("Cancel"){dialogueInterface,which->
+                dialogueInterface.dismiss()
+            }
+            val alertDialog:AlertDialog=builder.create()
+            alertDialog.show()
+        }
         findViewById<ImageButton>(R.id.colorpalletebtn).setOnClickListener{
             val colorpicker:AmbilWarnaDialog=AmbilWarnaDialog(this,defaultcolor,object : AmbilWarnaDialog.OnAmbilWarnaListener{
                 override fun onCancel(dialog: AmbilWarnaDialog?) {
