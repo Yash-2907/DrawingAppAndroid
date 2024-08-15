@@ -37,6 +37,24 @@ class MainActivity : AppCompatActivity() {
         var lastvalbrush:Float=10f
         var lastvaleraser:Float=10f
         var defaultcolor=ContextCompat.getColor(this,R.color.black)
+        findViewById<ImageButton>(R.id.downloadbtn).setOnClickListener{
+            val builder=AlertDialog.Builder(this)
+            builder.setTitle("Save To Gallery")
+            builder.setMessage("Do you want to save your drawing to your gallery ?!")
+            builder.setIcon(R.drawable.savebtn)
+            builder.setPositiveButton("Yes"){dialogueInterface,which->
+
+                //HERE SAVE TO GALLERY WILL BE IMPLEMENTED
+
+
+                dialogueInterface.dismiss()
+            }
+            builder.setNeutralButton("Cancel"){dialogueInterface,which->
+                dialogueInterface.dismiss()
+            }
+            val alertDialog:AlertDialog=builder.create()
+            alertDialog.show()
+        }
         findViewById<ImageButton>(R.id.deleteallbtn).setOnClickListener{
             val builder=AlertDialog.Builder(this)
             builder.setTitle("Alert")
@@ -103,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.findViewById<ImageButton>(R.id.camerabtn).setOnClickListener{
 
 
-                     //HERE CAMERA FUNCTIONALITY WILL BE INTEGRATED
+                     //camera
 
 
                 }
@@ -122,7 +140,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     fun requestpermission():Boolean{
         var listofpermissions =permissionlist()
         if(listofpermissions.isEmpty()) {
