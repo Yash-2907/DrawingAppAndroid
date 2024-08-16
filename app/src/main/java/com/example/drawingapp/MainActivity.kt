@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,8 +20,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.google.android.material.slider.Slider
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.io.File
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
@@ -30,6 +34,11 @@ class MainActivity : AppCompatActivity() {
     {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(it)
     }
+    private lateinit var imageUri : Uri
+    private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
+    {
+        findViewById<ImageView>(R.id.tracelayer).setImageURI(imageUri)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         var lastvalbrush:Float=10f
         var lastvaleraser:Float=10f
         var defaultcolor=ContextCompat.getColor(this,R.color.black)
+        imageUri=createImageUri()
         findViewById<ImageButton>(R.id.downloadbtn).setOnClickListener{
             val builder=AlertDialog.Builder(this)
             builder.setTitle("Save To Gallery")
@@ -44,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             builder.setIcon(R.drawable.savebtn)
             builder.setPositiveButton("Yes"){dialogueInterface,which->
 
-                //HERE SAVE TO GALLERY WILL BE IMPLEMENTED
+                //save to gallery
 
 
                 dialogueInterface.dismiss()
@@ -119,11 +129,8 @@ class MainActivity : AppCompatActivity() {
                 dialog.setContentView(R.layout.mediapickerdialog)
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.findViewById<ImageButton>(R.id.camerabtn).setOnClickListener{
-
-
-                     //camera
-
-
+                    camContract.launch(imageUri)
+                    dialog.dismiss()
                 }
                 dialog.findViewById<ImageButton>(R.id.gallerybtn).setOnClickListener{
                     contract.launch("image/*")
@@ -136,9 +143,16 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
             }
             else{
-                Toast.makeText(this, "Oops Your Need To allow all those permissions to access this feature!!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun createImageUri():Uri{
+        val image = File(filesDir,"camera_photos.png")
+        return FileProvider.getUriForFile(this,
+            "com.example.drawingapp.FileProvider",
+            image)
     }
     fun requestpermission():Boolean{
         var listofpermissions =permissionlist()
