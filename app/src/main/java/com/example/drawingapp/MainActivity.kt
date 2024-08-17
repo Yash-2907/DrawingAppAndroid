@@ -1,6 +1,7 @@
 package com.example.drawingapp
 
 import android.Manifest
+import android.animation.Animator
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -25,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.slider.Slider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,19 +65,41 @@ class MainActivity : AppCompatActivity() {
             builder.setIcon(R.drawable.savebtn)
             builder.setPositiveButton("Yes"){dialogueInterface,which->
                 CoroutineScope(Dispatchers.Main).launch {
-                    // UI-related code: Create and show the Dialog
-                    val dialog = Dialog(this@MainActivity)
-                    dialog.setContentView(R.layout.loadingscreen)
-                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    dialog.show()
+                    try {
+                        val dialog = Dialog(this@MainActivity)
+                        dialog.setContentView(R.layout.loadingscreen)
+                        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        dialog.show()
+                        withContext(Dispatchers.IO) {
+                            saveInBg()
+                        }
+                        dialog.dismiss()
+                        val tickDialog = Dialog(this@MainActivity)
+                        tickDialog.setContentView(R.layout.tickpopup)
+                        tickDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        tickDialog.show()
+                        val tickAnimationView = tickDialog.findViewById<LottieAnimationView>(R.id.tickAnime)
+                        tickAnimationView.speed=1.5f
+                        tickAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
+                            override fun onAnimationStart(animation: Animator) {
+                                Log.d("TickAnimation", "Animation started")
+                            }
 
-                    // Perform the background work on a background thread
-                    val result = withContext(Dispatchers.IO) {
-                        saveInBg() // Your background task
+                            override fun onAnimationEnd(animation: Animator) {
+                                tickDialog.dismiss()
+                            }
+
+                            override fun onAnimationCancel(animation: Animator) {
+                                Log.d("TickAnimation", "Animation canceled")
+                            }
+
+                            override fun onAnimationRepeat(animation: Animator) {
+                                Log.d("TickAnimation", "Animation repeated")
+                            }
+                        })
+                    } catch (e: Exception) {
+                        Log.e("DialogError", "Error during dialog or animation setup", e)
                     }
-
-                    // After background work is done, update UI: Dismiss the Dialog
-                    dialog.dismiss()
                 }
                 dialogueInterface.dismiss()
             }
@@ -169,7 +193,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     suspend fun saveInBg(){
-        delay(5000)
+        delay(3000)
     }
 
     private fun createImageUri():Uri{
