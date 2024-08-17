@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageUri : Uri
     private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
     {
+        findViewById<ImageView>(R.id.tracelayer).setImageURI(null)
         findViewById<ImageView>(R.id.tracelayer).setImageURI(imageUri)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         var lastvalbrush:Float=10f
         var lastvaleraser:Float=10f
         var defaultcolor=ContextCompat.getColor(this,R.color.black)
-        imageUri=createImageUri()
         findViewById<ImageButton>(R.id.downloadbtn).setOnClickListener{
             val builder=AlertDialog.Builder(this)
             builder.setTitle("Save To Gallery")
@@ -173,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.setContentView(R.layout.mediapickerdialog)
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.findViewById<ImageButton>(R.id.camerabtn).setOnClickListener{
+                    imageUri=createImageUri()
                     camContract.launch(imageUri)
                     dialog.dismiss()
                 }
