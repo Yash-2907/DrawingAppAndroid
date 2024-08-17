@@ -6,11 +6,15 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageButton
@@ -22,6 +26,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.android.material.slider.Slider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.io.File
 import java.util.ArrayList
@@ -53,10 +62,21 @@ class MainActivity : AppCompatActivity() {
             builder.setMessage("Do you want to save your drawing to your gallery ?!")
             builder.setIcon(R.drawable.savebtn)
             builder.setPositiveButton("Yes"){dialogueInterface,which->
+                CoroutineScope(Dispatchers.Main).launch {
+                    // UI-related code: Create and show the Dialog
+                    val dialog = Dialog(this@MainActivity)
+                    dialog.setContentView(R.layout.loadingscreen)
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    dialog.show()
 
-                //save to gallery
+                    // Perform the background work on a background thread
+                    val result = withContext(Dispatchers.IO) {
+                        saveInBg() // Your background task
+                    }
 
-
+                    // After background work is done, update UI: Dismiss the Dialog
+                    dialog.dismiss()
+                }
                 dialogueInterface.dismiss()
             }
             builder.setNeutralButton("Cancel"){dialogueInterface,which->
@@ -148,6 +168,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    suspend fun saveInBg(){
+        delay(5000)
+    }
+
     private fun createImageUri():Uri{
         val image = File(filesDir,"camera_photos.png")
         return FileProvider.getUriForFile(this,
@@ -171,6 +195,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getBitmapfromView(view: View):Bitmap{
+        val returnedBitmap=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888)
+        val canvas=Canvas(returnedBitmap)
+        val bgDrawable=view.background
+        if(bgDrawable!=null){
+            bgDrawable.draw(canvas)
+        }
+        else{
+            canvas.drawColor(Color.WHITE)
+        }
+        view.draw(canvas)
+        return returnedBitmap
+    }
     fun permissionlist():ArrayList<String>
     {
         var listofpermissions=ArrayList<String>()
