@@ -4,25 +4,31 @@ import android.Manifest
 import android.animation.Animator
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -34,12 +40,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.ArrayList
+import java.util.Objects
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
     lateinit var DrawObj:DrawingView
+    lateinit var imageSaveUri:Uri
     var brushOReraser :Boolean=true
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
@@ -51,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(null)
         findViewById<ImageView>(R.id.tracelayer).setImageURI(imageUri)
     }
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             builder.setMessage("Do you want to save your drawing to your gallery ?!")
             builder.setIcon(R.drawable.savebtn)
             builder.setPositiveButton("Yes"){dialogueInterface,which->
+                var result=""
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
                         val dialog = Dialog(this@MainActivity)
@@ -71,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                         dialog.show()
                         withContext(Dispatchers.IO) {
-                            saveInBg()
+                            saveInBg(getBitmapfromView(findViewById(R.id.Frameid)),"Drawing_File"+System.currentTimeMillis()/1000)
                         }
                         dialog.dismiss()
                         val tickDialog = Dialog(this@MainActivity)
@@ -193,12 +206,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun saveInBg(){
-        delay(3000)
+    suspend fun saveInBg(bitmap: Bitmap,fileName: String){
+        val fos:OutputStream?
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q)
+        {
+            val contentValues=ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,fileName+".jpg")
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpg")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH,Environment.DIRECTORY_PICTURES+"/Folder")
+            val uri=contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues)
+            fos=contentResolver.openOutputStream(uri!!)
+        }
+        else{
+            val imageDir=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES+"/Folder").toString()
+            val image=File(imageDir,fileName+".jpg")
+            fos=FileOutputStream(image)
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos!!)
+        Objects.requireNonNull(fos).close()
     }
 
     private fun createImageUri():Uri{
-        val image = File(filesDir,"camera_photos.png")
+        val image = File(filesDir,"drawingApp"+System.currentTimeMillis()/1000+".png")
         return FileProvider.getUriForFile(this,
             "com.example.drawingapp.FileProvider",
             image)
