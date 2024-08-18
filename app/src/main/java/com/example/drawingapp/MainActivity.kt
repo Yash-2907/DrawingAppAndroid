@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -50,7 +51,6 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
     lateinit var DrawObj:DrawingView
-    lateinit var imageSaveUri:Uri
     var brushOReraser :Boolean=true
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             builder.setMessage("Do you want to save your drawing to your gallery ?!")
             builder.setIcon(R.drawable.savebtn)
             builder.setPositiveButton("Yes"){dialogueInterface,which->
-                var result=""
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
                         val dialog = Dialog(this@MainActivity)
@@ -206,25 +205,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun saveInBg(bitmap: Bitmap,fileName: String){
-        val fos:OutputStream?
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q)
-        {
-            val contentValues=ContentValues()
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,fileName+".jpg")
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpg")
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH,Environment.DIRECTORY_PICTURES+"/Folder")
-            val uri=contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues)
-            fos=contentResolver.openOutputStream(uri!!)
+
+    suspend fun saveInBg(bitmap: Bitmap, fileName: String) {
+        val fos: OutputStream?
+        var imageUri: Uri? = null
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Saving the image in MediaStore for Android Q and above
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName.jpg")
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Folder")
+            }
+            imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            fos = imageUri?.let { contentResolver.openOutputStream(it) }
+        } else {
+            // Saving the image in the external storage directory for Android versions below Q
+            val imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/Folder").toString()
+            val imageFile = File(imageDir, "$fileName.jpg")
+            imageUri = Uri.fromFile(imageFile)
+            fos = FileOutputStream(imageFile)
         }
-        else{
-            val imageDir=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES+"/Folder").toString()
-            val image=File(imageDir,fileName+".jpg")
-            fos=FileOutputStream(image)
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos!!)
-        Objects.requireNonNull(fos).close()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos!!)
+        Objects.requireNonNull(fos)?.close()
+
+        // Trigger the share window after saving
+//        imageUri?.let {
+//            val shareIntent = Intent().apply {
+//                action = Intent.ACTION_SEND
+//                putExtra(Intent.EXTRA_STREAM, it)
+//                type = "image/jpeg"
+//                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//            }
+//            startActivity(Intent.createChooser(shareIntent, "Share image via"))
+//        }
     }
+
 
     private fun createImageUri():Uri{
         val image = File(filesDir,"drawingApp"+System.currentTimeMillis()/1000+".png")
