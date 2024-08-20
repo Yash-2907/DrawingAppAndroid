@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(it)
     }
     private lateinit var imageUri : Uri
+    private lateinit var shareuri : Uri
     private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
     {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(null)
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                                     setContentView(R.layout.sharedialog)
                                     window?.setBackgroundDrawableResource(android.R.color.transparent)
                                     findViewById<ImageButton>(R.id.sharebtn)?.setOnClickListener {
-                                        // Handle share button click
+                                        shareImage(shareuri)
                                     }
                                     show()
                                 }
@@ -234,22 +235,20 @@ class MainActivity : AppCompatActivity() {
             imageUri = Uri.fromFile(imageFile)
             fos = FileOutputStream(imageFile)
         }
+        shareuri=imageUri!!
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos!!)
         Objects.requireNonNull(fos)?.close()
-
-        // Trigger the share window after saving
-//        imageUri?.let {
-//            val shareIntent = Intent().apply {
-//                action = Intent.ACTION_SEND
-//                putExtra(Intent.EXTRA_STREAM, it)
-//                type = "image/jpeg"
-//                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//            }
-//            startActivity(Intent.createChooser(shareIntent, "Share image via"))
-//        }
     }
 
-
+    private fun shareImage(imageUri: Uri) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, imageUri)
+            type = "image/jpeg"  // Adjust the MIME type if needed
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION  // Grant permission to read the URI
+        }
+        startActivity(Intent.createChooser(shareIntent, "Share image via"))
+    }
     private fun createImageUri():Uri{
         val image = File(filesDir,"drawingApp"+System.currentTimeMillis()/1000+".png")
         return FileProvider.getUriForFile(this,
