@@ -99,6 +99,14 @@ class MainActivity : AppCompatActivity() {
 
                             override fun onAnimationEnd(animation: Animator) {
                                 tickDialog.dismiss()
+                                val finalDialog = Dialog(this@MainActivity).apply {
+                                    setContentView(R.layout.sharedialog)
+                                    window?.setBackgroundDrawableResource(android.R.color.transparent)
+                                    findViewById<ImageButton>(R.id.sharebtn)?.setOnClickListener {
+                                        // Handle share button click
+                                    }
+                                    show()
+                                }
                             }
 
                             override fun onAnimationCancel(animation: Animator) {
