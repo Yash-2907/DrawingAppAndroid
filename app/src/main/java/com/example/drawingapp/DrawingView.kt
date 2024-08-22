@@ -168,7 +168,7 @@ class DrawingView(context: Context, attr: AttributeSet) : View(context, attr) {
         }
 
         private val handler = Handler(Looper.getMainLooper())
-        private val undoDelayMillis = 50L  // 50 milliseconds delay
+        private val undoDelayMillis = 500L
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             super.onScaleEnd(detector)
