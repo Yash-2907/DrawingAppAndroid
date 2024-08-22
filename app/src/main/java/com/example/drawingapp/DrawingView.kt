@@ -130,6 +130,9 @@ class DrawingView(context: Context, attr: AttributeSet) : View(context, attr) {
         color = newColor
     }
 
+    fun getcolor():Int{
+        return color
+    }
     fun undo() {
         if (allPath.isNotEmpty()) {
             allPath.removeAt(allPath.lastIndex)

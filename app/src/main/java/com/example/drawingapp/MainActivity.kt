@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.graphics.drawable.GradientDrawable
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.AsyncTask
@@ -197,6 +198,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Slider>(R.id.sizeslider).addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
             var circle=findViewById<ImageView>(R.id.brushsizecircle)
             override fun onStartTrackingTouch(slider: Slider) {
+                val circlegd = circle.background as? GradientDrawable
+                if (circlegd != null) {
+                    circlegd.setColor(DrawObj.getcolor())
+                }
                 circle.visibility=View.VISIBLE
             }
 
