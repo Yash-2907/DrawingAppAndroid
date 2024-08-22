@@ -20,7 +20,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -106,8 +108,12 @@ class MainActivity : AppCompatActivity() {
                                     findViewById<ImageButton>(R.id.sharebtn)?.setOnClickListener {
                                         shareImage(shareuri)
                                     }
+                                    findViewById<ImageButton>(R.id.crossbtn).setOnClickListener{
+                                        dismiss()
+                                    }
                                     show()
                                 }
+                                finalDialog.setCanceledOnTouchOutside(false)
                             }
 
                             override fun onAnimationCancel(animation: Animator) {
@@ -172,17 +178,32 @@ class MainActivity : AppCompatActivity() {
             val whitecolor=ContextCompat.getColor(this,R.color.white)
             DrawObj.setBrushColor(whitecolor)
         }
-        findViewById<Slider>(R.id.sizeslider).addOnChangeListener{slider,value,fromUser->
+        findViewById<Slider>(R.id.sizeslider).addOnChangeListener { slider, value, fromUser ->
             DrawObj.setBrushSize(value)
+            var circle=findViewById<ImageView>(R.id.brushsizecircle)
+            val size :Int= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()
+            val params: ViewGroup.LayoutParams = circle.layoutParams
+            params.width = size
+            params.height = size
+            circle.layoutParams = params
             val roundedValue = String.format("%.1f", value)
             findViewById<TextView>(R.id.sizepercentage).text = "$roundedValue%"
-            if(brushOReraser) {
+            if (brushOReraser) {
                 lastvalbrush = value
-            }
-            else {
+            } else {
                 lastvaleraser = value
             }
         }
+        findViewById<Slider>(R.id.sizeslider).addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
+            var circle=findViewById<ImageView>(R.id.brushsizecircle)
+            override fun onStartTrackingTouch(slider: Slider) {
+                circle.visibility=View.VISIBLE
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                circle.visibility=View.INVISIBLE
+            }
+        })
         findViewById<ImageButton>(R.id.undobtn).setOnClickListener{
             DrawObj.undo()
         }

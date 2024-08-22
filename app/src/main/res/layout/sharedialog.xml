@@ -5,17 +5,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/dialogdesign"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="#00000000"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="15dp"
         android:background="@drawable/dialogdesign">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right">
+
+            <ImageButton
+                android:id="@+id/crossbtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#00000000"
+                android:src="@drawable/crosspng"
+                android:scaleType="fitCenter">
+
+            </ImageButton>
+
+        </LinearLayout>
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="180dp"
             android:layout_height="180dp"
@@ -30,15 +48,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Share Your Amazing Drawing With Your Friends!!"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:textAlignment="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:textStyle="bold">
 
         </TextView>
         <ImageButton
             android:id="@+id/sharebtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="#00000000"
             android:src="@drawable/sharepng"
             android:layout_marginTop="10dp"
