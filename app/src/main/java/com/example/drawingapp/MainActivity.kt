@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.Animator
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -59,6 +60,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
     lateinit var DrawObj:DrawingView
     var brushOReraser :Boolean=true
+    var currResponse="OOPS!! SOME ERROR OCCURED"
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(it)
@@ -246,20 +248,35 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.aibtn).setOnClickListener{
             val generativeModel =
                 GenerativeModel(
-                    // Specify a Gemini model appropriate for your use case
                     modelName = "gemini-1.5-flash",
-                    // Access your API key as a Build Configuration variable (see "Set up your API key" above)
                     apiKey = BuildConfig.api_key)
 
             val image: Bitmap = getBitmapfromView(findViewById(R.id.Frameid))
             val inputContent = content {
                 image(image)
-                text("This is a drawing , analyze it and solve/describe/suggest according to the input")
+                text("I have uploaded an image that contains a hand-drawn sketch or handwritten text. Please analyze the image and provide a detailed explanation of what is depicted. If the image contains a request for assistance, such as a drawing idea or a question, kindly fulfill the request or provide an insightful response based on the content. If the drawing represents a concept or object, please describe it and offer any additional context or information that might be relevant, and if the drawing contains just texts like a request to write a joke , you can just read it and answer the way you would have answered me by telling a joke")
             }
 
-            MainScope().launch {
-                val response = generativeModel.generateContent(inputContent)
-                Toast.makeText(this@MainActivity, "${response.text}", Toast.LENGTH_LONG).show()
+            CoroutineScope(Dispatchers.Main).launch {
+                val dialog = Dialog(this@MainActivity)
+                dialog.setContentView(R.layout.loadingscreen)
+                dialog.setCancelable(false)
+                dialog.show()
+                try {
+                    val response = generativeModel.generateContent(inputContent)
+                    currResponse=response.text.toString()
+                } finally {
+                    dialog.dismiss()
+                    val responseDialog= Dialog(this@MainActivity)
+                    responseDialog.setContentView(R.layout.ai_dialog)
+                    responseDialog.setCancelable(true)
+                    responseDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    responseDialog.findViewById<ImageButton>(R.id.closebtn).setOnClickListener{
+                        responseDialog.dismiss()
+                    }
+                    responseDialog.findViewById<TextView>(R.id.aiResponse).setText(currResponse)
+                    responseDialog.show()
+                }
             }
         }
     }
