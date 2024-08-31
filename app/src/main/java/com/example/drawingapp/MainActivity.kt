@@ -8,6 +8,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ImageDecoder
@@ -37,9 +38,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.airbnb.lottie.LottieAnimationView
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 import com.google.android.material.slider.Slider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -238,7 +242,28 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
             }
         }
+
+        findViewById<ImageButton>(R.id.aibtn).setOnClickListener{
+            val generativeModel =
+                GenerativeModel(
+                    // Specify a Gemini model appropriate for your use case
+                    modelName = "gemini-1.5-flash",
+                    // Access your API key as a Build Configuration variable (see "Set up your API key" above)
+                    apiKey = BuildConfig.api_key)
+
+            val image: Bitmap = getBitmapfromView(findViewById(R.id.Frameid))
+            val inputContent = content {
+                image(image)
+                text("This is a drawing , analyze it and solve/describe/suggest according to the input")
+            }
+
+            MainScope().launch {
+                val response = generativeModel.generateContent(inputContent)
+                Toast.makeText(this@MainActivity, "${response.text}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
+
 
 
     suspend fun saveInBg(bitmap: Bitmap, fileName: String) {
