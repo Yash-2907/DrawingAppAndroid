@@ -5,9 +5,11 @@
     <color name="lightgrey">#e9e9e9</color>
     <color name="lightpurple">#BF6FEA</color>
     <color name="cyan">#71eef1</color>
+    <color name="darkblue">#3f4dcf</color>
     <color name="red">#f70a34</color>
     <color name="lightred">#ff6f8b</color>
     <color name="yellow">#fff77b</color>
     <color name="lightgreen">#b8ff74</color>
     <color name="lightblue">#3bbdf5</color>
+    <color name="orange">#ff570c</color>
 </resources>

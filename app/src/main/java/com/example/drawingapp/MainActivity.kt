@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,6 +16,8 @@ import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.graphics.drawable.GradientDrawable
 import android.media.MediaScannerConnection
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -255,8 +258,25 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
     fun airequest(qn:String)
     {
+        if (!isInternetAvailable(this)) {
+            Toast.makeText(this, "No internet connection available", Toast.LENGTH_LONG).show()
+            return
+        }
         val generativeModel =
             GenerativeModel(
                 modelName = "gemini-1.5-flash",
