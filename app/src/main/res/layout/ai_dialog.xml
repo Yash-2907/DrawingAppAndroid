@@ -47,9 +47,40 @@
             android:text="Hello world"
             android:textSize="25dp"
             android:textAlignment="viewStart"
-            android:layout_margin="10dp">
+            android:padding="5dp">
             
         </TextView>
     </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Give Me Custom Reqest Below"
+        android:textSize="20dp"
+        android:textStyle="bold">
+
+    </TextView>
+    <EditText
+        android:id="@+id/newreqbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:background="@drawable/ai_response_design"
+        android:layout_margin="10dp"
+        android:gravity="top"
+        android:hint="New Request Here"
+        android:padding="5dp">
+    </EditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/askbtn"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:text="ASK"
+        android:textColor="@color/white"
+        android:background="@color/red">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
 
 </LinearLayout>

@@ -28,6 +28,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var DrawObj:DrawingView
     var brushOReraser :Boolean=true
     var currResponse="OOPS!! SOME ERROR OCCURED"
+    var defaultRequest:String="I have uploaded an image that contains a hand-drawn sketch or handwritten text. Please analyze the image and provide a detailed explanation of what is depicted guess a character if shown. If the image contains a request for assistance, such as a drawing idea or a question, kindly fulfill the request or provide an insightful response based on the content. If the drawing represents a concept or object, please describe it and offer any additional context or information that might be relevant, and if the drawing contains just texts like a request to write a joke , you can just read it and answer the way you would have answered me by telling a joke.The image and equations may be inverted sideways to even check those angles to come up with correct output"
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.tracelayer).setImageURI(it)
@@ -246,42 +249,52 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.aibtn).setOnClickListener{
-            val generativeModel =
-                GenerativeModel(
-                    modelName = "gemini-1.5-flash",
-                    apiKey = BuildConfig.api_key)
-
-            val image: Bitmap = getBitmapfromView(findViewById(R.id.Frameid))
-            val inputContent = content {
-                image(image)
-                text("I have uploaded an image that contains a hand-drawn sketch or handwritten text. Please analyze the image and provide a detailed explanation of what is depicted. If the image contains a request for assistance, such as a drawing idea or a question, kindly fulfill the request or provide an insightful response based on the content. If the drawing represents a concept or object, please describe it and offer any additional context or information that might be relevant, and if the drawing contains just texts like a request to write a joke , you can just read it and answer the way you would have answered me by telling a joke")
-            }
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val dialog = Dialog(this@MainActivity)
-                dialog.setContentView(R.layout.loadingscreen)
-                dialog.setCancelable(false)
-                dialog.show()
-                try {
-                    val response = generativeModel.generateContent(inputContent)
-                    currResponse=response.text.toString()
-                } finally {
-                    dialog.dismiss()
-                    val responseDialog= Dialog(this@MainActivity)
-                    responseDialog.setContentView(R.layout.ai_dialog)
-                    responseDialog.setCancelable(true)
-                    responseDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    responseDialog.findViewById<ImageButton>(R.id.closebtn).setOnClickListener{
-                        responseDialog.dismiss()
-                    }
-                    responseDialog.findViewById<TextView>(R.id.aiResponse).setText(currResponse)
-                    responseDialog.show()
-                }
-            }
+            airequest(defaultRequest)
         }
     }
 
 
+
+    fun airequest(qn:String)
+    {
+        val generativeModel =
+            GenerativeModel(
+                modelName = "gemini-1.5-flash",
+                apiKey = BuildConfig.api_key)
+
+        val image: Bitmap = getBitmapfromView(findViewById(R.id.Frameid))
+        val inputContent = content {
+            image(image)
+            text(qn)
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val dialog = Dialog(this@MainActivity)
+            dialog.setContentView(R.layout.robotloadingscreen)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setCancelable(false)
+            dialog.show()
+            try {
+                val response = generativeModel.generateContent(inputContent)
+                currResponse=response.text.toString()
+            } finally {
+                dialog.dismiss()
+                val responseDialog= Dialog(this@MainActivity)
+                responseDialog.setContentView(R.layout.ai_dialog)
+                responseDialog.setCancelable(true)
+                responseDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                responseDialog.findViewById<ImageButton>(R.id.closebtn).setOnClickListener{
+                    responseDialog.dismiss()
+                }
+                responseDialog.findViewById<TextView>(R.id.aiResponse).setText(currResponse)
+                responseDialog.findViewById<Button>(R.id.askbtn).setOnClickListener{
+                    responseDialog.dismiss()
+                    airequest(responseDialog.findViewById<EditText>(R.id.newreqbox).text.toString())
+                }
+                responseDialog.show()
+            }
+        }
+    }
 
     suspend fun saveInBg(bitmap: Bitmap, fileName: String) {
         val fos: OutputStream?
