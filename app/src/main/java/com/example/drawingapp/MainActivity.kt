@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                     defaultcolor=color
+                    setselected(1)
                     Log.d("ifcolorchanges","default color changes to :- $defaultcolor")
                     DrawObj.setBrushColor(color)
                 }
